@@ -1,0 +1,2 @@
+# DjangoSDA
+To jest cwiczenie
