@@ -4,6 +4,20 @@ from django.core.exceptions import BadRequest
 from django.core.handlers.wsgi import WSGIRequest
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
+from django.views import View
+
+from books.models import BookAuthor
+
+
+class AuthorListBaseView(View):
+    template_name = "Author_list.html"
+    queryset = BookAuthor.objects.all()  # type: ignore
+
+    def get(self, request: WSGIRequest, *args, **kwargs):
+        context = {"authors": self.queryset}
+        return render(request, template_name=self.template_name, context=context)
+
+
 
 
 # 11. Utwórz pierwszą funkcję widoku drukująca/zwracająca hello world (pamietaj dodać ją do urls.py - moesz ustawić jej name).
