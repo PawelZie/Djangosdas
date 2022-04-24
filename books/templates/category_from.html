@@ -1,0 +1,19 @@
+{% extends "base.html"%}
+
+{% block content %}
+    <div>
+        <from action=""{% url 'category_create' %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type=""submit" value="create"/></div>from>
+
+
+
+        </from>
+    <h2> My Categories </h2>h2>
+    <ul>
+    {% for category in categories %}
+        <li> {{ category }} </li>
+    {% endfor %}
+    </ul>
+{% endblock %}
