@@ -2,6 +2,7 @@
 
 {% block content %}
     <div>
+<<<<<<< HEAD
         <from action=""{% url 'category_create' %}" method="post">
         {% csrf_token %}
         {{ form.as_p }}
@@ -16,4 +17,12 @@
         <li> {{ category }} </li>
     {% endfor %}
     </ul>
+=======
+        <from action="{% url 'category_create' %}" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="create"/>
+        </from>
+    </div>
+>>>>>>> 176bbd8 (New update)
 {% endblock %}

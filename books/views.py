@@ -5,68 +5,26 @@ from IPython.core.release import authors
 from django.core.exceptions import BadRequest
 from django.core.handlers.wsgi import WSGIRequest
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render, get_object_or_404
-from django.urls import reverse_lazy
+from django.shortcuts import render
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import DetailView, ListView, TemplateView, FormView
 
-from books.forms import CategoryForm
+from books.forms import logger
 from books.models import BookAuthor, Category, Book
-
-import logging
-logger = logging.getLogger("pawel")
 
 
 class AuthorListBaseView(View):
     template_name = "author_list.html"
     queryset = BookAuthor.objects.all() # type: ignore
 
-    def get(self, request: WSGIRequest, **arg):
+    def get(self, request: WSGIRequest, *arg, **kwargs):
         logger.debug(f"{request}---dupa")
         context = {"authors": self.queryset}
         return render(request, template_name=self.template_name, context=context)
 
 
 
-
-
-
-class CategoryListTemplateView(TemplateView):
-    template_name = "category_list.html"
-    extra_context = {"categories": Category.objects.all()} # type: ignore
-
-class BooksListView(ListView):
-    template_name = "books_list.html"
-    model = Book
-    paginate_by =10
-
-class BookDetailsView(DetailView):
-    template_name = "book_detail.html"
-    model = Book
-
-class CategoryCreateFormView(FormView):
-    template_name = "category_form.html"
-    form_class = CategoryForm
-    success_url = reverse_lazy("category_list")
-
-    def form_invalid(self, form):
-        logger.critical(f"FORM CRITICAL ERROR, MORE INFO {form}")
-        return super().from_invalid(form)
-
-    def form_valid(self, form):
-        result = super().form_valid(form)
-        logger.info(f"form = {form}")
-        logger.info(f"form.cleaned_data = {form.cleaned_data}")  # cleaned means with removed html indicators
-        check_entity = Category.objects.create(**form.cleaned_data)
-        logger.info(f"check_entity-id={check_entity.id}")
-        return result
-
-
-
-
 # 11. Utwórz pierwszą funkcję widoku drukująca/zwracająca hello world (pamietaj dodać ją do urls.py - moesz ustawić jej name).
-
 
 
 def get_hello(request: WSGIRequest) -> HttpResponse:
@@ -114,7 +72,6 @@ def get_arguments_from_query(request:WSGIRequest ) -> HttpResponse:
 
 
 @csrf_exempt
-
 def check_http_check_type(request:WSGIRequest) -> HttpResponse:
     check_type = "Unknown"
     # if request.method=="GET":
@@ -136,12 +93,14 @@ def check_http_query_type():
 # 21. Przygotuj funkcję która zwróci informację o headerach HTTP
 
 def get_headers(request:WSGIRequest) -> JsonResponse:
-    our_headers="request.headers"
+    our_headers = request.headers
 
     return JsonResponse({"headers":dict (our_headers)})
 
 # 22. Rzuć wyjątkiem HTTP
 
+
+@csrf_exempt
 def raise_error_for_fun(request:WSGIRequest) -> HttpResponse:
     if not request.method != "GET":
         raise BadRequest ("method not allowed")
