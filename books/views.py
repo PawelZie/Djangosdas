@@ -8,7 +8,7 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView
 
 from books.forms import logger
 from books.models import BookAuthor, Category, Book
@@ -19,7 +19,6 @@ class AuthorListBaseView(View):
     queryset = BookAuthor.objects.all() # type: ignore
 
     def get(self, request: WSGIRequest, *arg, **kwargs):
-        logger.debug(f"{request}---dupa")
         context = {"authors": self.queryset}
         return render(request, template_name=self.template_name, context=context)
 
@@ -27,6 +26,12 @@ class AuthorListBaseView(View):
 class CategoryListTemplateView(TemplateView):
     template_name = "category_list.html"
     extra_context = {"categories": Category.objects.all()} #type: ignore
+
+
+class BooksListView(ListView):
+    template_name = "books_list.html"
+    model = Book
+    paginate_by = 10
 
 
 
