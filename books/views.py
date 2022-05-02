@@ -5,8 +5,15 @@ from django.core.handlers.wsgi import WSGIRequest
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.views import View
+<<<<<<< Updated upstream
 from django.views.generic import TemplateView, ListView, DetailView
 
+=======
+from django.views.decorators.csrf import csrf_exempt
+from django.views.generic import DetailView, ListView, TemplateView, FormView, CreateView, UpdateView
+
+from books.forms import CategoryForm, AuthorForm
+>>>>>>> Stashed changes
 from books.models import BookAuthor, Category, Book
 
 
@@ -18,6 +25,10 @@ class AuthorListBaseView(View):
         context = {"authors": self.queryset}
         return render(request, template_name=self.template_name, context=context)
 
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 class CategoryListTemplateView(TemplateView):
     template_name = "category_list.html"
     extra_context = {"categories": Category.objects.all()} #type:ignore
@@ -26,17 +37,60 @@ class CategoryListTemplateView(TemplateView):
 class BooksListView(ListView):
     template_name = "books_list.html"
     model = Book
+<<<<<<< Updated upstream
     paginate_by = 10
 
     class BookDetailsView(DetailView):
         template_name = "book_detail.html"
         model = Book
+=======
+    paginate_by =10
+
+class BookDetailsView(DetailView):
+    template_name = "book_detail.html"
+    model = Book
+
+class CategoryCreateFormView(FormView):
+    template_name = "category_form.html"
+    form_class = CategoryForm
+    success_url = reverse_lazy("category_list")
+
+    def form_invalid(self, form):
+        logger.critical(f"FORM CRITICAL ERROR, MORE INFO {form}")
+        return super().from_invalid(form)
+
+    def form_valid(self, form):
+        result = super().form_valid(form)
+        logger.info(f"form = {form}")
+        logger.info(f"form.cleaned_data = {form.cleaned_data}")  # cleaned means with removed html indicators
+        check_entity = Category.objects.create(**form.cleaned_data)
+        logger.info(f"check_entity-id={check_entity.id}")
+        return result
+
+class AuthorCreateView(CreateView):
+    template_name = "author_form.html"
+    form_class = AuthorForm
+    success_url = reverse_lazy("author_list")
+
+class AuthorUpdateView(UpdateView):
+    template_name = "author_form.html"
+    form_class = AuthorForm
+    success_url = reverse_lazy("author_list")
+>>>>>>> Stashed changes
 
         def get_object(self, **kwargs):
             return get_object_or_404(Book, id=self.kwargs.get("pk"))
 
+<<<<<<< Updated upstream
 # 11. Utwórz pierwszą funkcję widoku drukująca/zwracająca hello world (pamietaj dodać ją do urls.py - moesz ustawić jej name).
 from django.views.decorators.csrf import csrf_exempt
+=======
+def get_object(self, **kwargs):
+    return get_object_or_404(BookAuthor, id=self.kwargs.get("pk"))
+
+
+# 11. Utwórz pierwszą funkcję widoku drukująca/zwracająca hello world (pamietaj dodać ją do urls.py - moesz ustawić jej name).
+>>>>>>> Stashed changes
 
 
 def get_hello(request: WSGIRequest) -> HttpResponse:
