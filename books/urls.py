@@ -20,7 +20,7 @@ urlpatterns = [
     path('author-list', AuthorListBaseView.as_view(), name="author-list"), # pierwsze author-list wpisujemy do przeglądarki , A drugie odwołujemy sie w kodzie(to co szuka django)
     path('category-list', CategoryListTemplateView.as_view(), name="category-list"),
     path('books-list', BooksListView.as_view(), name="books-list"),
-    path('book-details/<int:pk>/', BooksDetailsView.as_view(), name="books-details"),
-    path('category-create', CategoryCreateFormView.as_view(), name="category-create"),
+    path('book-details/<int:pk>/', BooksDetailsView.as_view(), name="book-detail"),
+    path('category-create', CategoryCreateFormView.as_view(), name="category_create"),
 
 ]

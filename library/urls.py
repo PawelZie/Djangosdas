@@ -5,7 +5,7 @@ from django.urls import path, include
 
 from books.views import get_hello
 
-urlpatterns = {
+urlpatterns = [
     path('', get_hello),
     path('books/',include('books.urls')) #przekirowuje do endpointow w books/url.py
     # path('uuids-a', get_uuids_a),
@@ -16,9 +16,9 @@ urlpatterns = {
     # path('get-headers',get_headers, name="get_headers"),
     # path('raise-error', raise_error_for_fun, name="raise-error"),
 
-}
+]
 
-if settings.DEBUG:
-    urlpatterns.add(path('admin',admin.site.urls))
+# if settings.DEBUG:
+#     urlpatterns.add(path('admin',admin.site.urls))
 
 

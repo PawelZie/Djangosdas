@@ -1,4 +1,4 @@
-from django.forms import Form, CharField, ModelForm
+from django.forms import Form, CharField
 import logging
 
 logger = logging.getLogger("formsLogger")

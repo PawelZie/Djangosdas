@@ -3,9 +3,9 @@
 {% block content %}
     <div>
         <from action="{% url 'category_create' %}" method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="create"/>
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="create"/>
         </from>
     </div>
 {% endblock %}
