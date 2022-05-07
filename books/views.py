@@ -9,9 +9,9 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import TemplateView, ListView, DetailView, FormView
+from django.views.generic import TemplateView, ListView, DetailView, FormView, CreateView
 
-from books.forms import logger, CategoryForm
+from books.forms import logger, CategoryForm, AuthorForm
 from books.models import BookAuthor, Category, Book
 import logging
 
@@ -63,6 +63,10 @@ class CategoryCreateFormView(FormView):
         logger.info(f"check_entity-id={check_entity.id}")
         return result
 
+class AuthorCreateView(CreateView):
+    template_name = "author_form.html"
+    form_class = AuthorForm
+    success_url = reverse_lazy("author-list")
 
 
 # 11. Utwórz pierwszą funkcję widoku drukująca/zwracająca hello world (pamietaj dodać ją do urls.py - moesz ustawić jej name).

@@ -2,7 +2,7 @@ from django.urls import path
 
 from books.views import get_uuids_a, get_uuids_b, get_argument_from_path, get_arguments_from_query, \
     AuthorListBaseView, raise_error_for_fun, get_headers, check_http_query_type, CategoryListTemplateView, \
-    BooksListView, BooksDetailsView, CategoryCreateFormView
+    BooksListView, BooksDetailsView, CategoryCreateFormView, AuthorCreateView
 
 
 class BooksListTemplateView:
@@ -22,5 +22,6 @@ urlpatterns = [
     path('books-list', BooksListView.as_view(), name="books-list"),
     path('book-details/<int:pk>/', BooksDetailsView.as_view(), name="book-detail"),
     path('category-create', CategoryCreateFormView.as_view(), name="category_create"),
+    path('author-create', AuthorCreateView.as_view(), name="author_create")
 
 ]
