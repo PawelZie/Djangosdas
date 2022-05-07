@@ -42,7 +42,7 @@ class BooksDetailsView(DetailView):
     template_name = "book_detail.html"
     model = Book
 
-    def get_object(self, queryset=None):
+    def get_object(self, **kwargs):
         return get_object_or_404(Book, id=self.kwargs.get("pk"))
 
 
