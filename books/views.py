@@ -11,7 +11,7 @@ from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView, ListView, DetailView, FormView, CreateView, UpdateView
 
-from books.forms import logger, CategoryForm, AuthorForm
+from books.forms import logger, CategoryForm, AuthorForm, BookForm
 from books.models import BookAuthor, Category, Book
 import logging
 
@@ -49,10 +49,10 @@ class BooksDetailsView(DetailView):
 class CategoryCreateFormView(FormView):
     template_name = "category_form.html"
     form_class = CategoryForm
-    success_url = reverse_lazy("category-list")
+    success_url = reverse_lazy("category_list")
 
     def form_invalid(self, form):
-        logger.critical(f"FORM CRITICAL ERROR, MORE INFO {form}")
+        logger.critical(f"FROM CRITICAL ERROR, MORE INFO {form}")
         return super().form_invalid(form)
 
     def form_valid(self, form):
@@ -76,8 +76,19 @@ class AuthorUpdateView(UpdateView):
     def get_object(self, **kwargs):
         return get_object_or_404(BookAuthor, id=self.kwargs.get("pk"))
 
+class BookCreateView(CreateView):
+    template_name = "book_form.html"
+    form_class = BookForm
+    success_url = reverse_lazy("books-list")
+
+#def get_success_url(self):
+    #return reverse_lazy("book_list")
+
+
 
 # 11. Utwórz pierwszą funkcję widoku drukująca/zwracająca hello world (pamietaj dodać ją do urls.py - moesz ustawić jej name).
+
+
 
 
 def get_hello(request: WSGIRequest) -> HttpResponse:
