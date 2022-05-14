@@ -84,6 +84,16 @@ class BookCreateView(CreateView):
 #def get_success_url(self):
     #return reverse_lazy("book_list")
 
+#16 z dnia 14-05-2022
+
+class BookUpdateView(CreateView):
+    template_name = "book_form.html"
+    form_class = BookForm
+    success_url = reverse_lazy("books-list")
+
+    def get_object(self, **kwargs):
+        return get_object_or_404(Book, id=self.kwargs.get("pk"))
+
 
 
 # 11. Utwórz pierwszą funkcję widoku drukująca/zwracająca hello world (pamietaj dodać ją do urls.py - moesz ustawić jej name).
