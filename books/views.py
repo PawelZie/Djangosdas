@@ -106,8 +106,6 @@ class BookDeleteView(DeleteView):
 
 
 
-
-
 # 11. Utwórz pierwszą funkcję widoku drukująca/zwracająca hello world (pamietaj dodać ją do urls.py - moesz ustawić jej name).
 
 @login_required
